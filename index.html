@@ -1,0 +1,778 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence Is Loud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="NIKO THE FAT TERMINATOR">
+    <meta property="og:image" content="images/16.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="">
+    <meta name="twitter:title" content="NIKO THE FAT TERMINATOR">
+    <meta name="twitter:image" content="memes/16.png">
+
+    <link rel="icon" type="image/png" sizes="64x64" href="images/nico in the forest.png">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Candal);
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 16px;
+            font-family: 'Candal', sans-serif;
+            background: #04080c;
+        }
+
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            cursor: wait;
+            padding: 20px;
+        }
+
+        .preloader-image {
+            width: 40vw;
+            height: 40vw;
+            background: url('images/preloader.png') center center / contain no-repeat;
+            cursor: wait;
+            animation: preloaderShow 1s ease-in forwards;
+        }
+
+        @keyframes preloaderShow {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        #main {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .background-container {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10% !important;
+            left: -10% !important;
+            z-index: 0;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: url('images/space-odyssey.gif') center center / cover no-repeat;
+            animation: backgroundAnim 6s 0.1s infinite linear;
+        }
+
+        .invader-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 5;
+        }
+
+        .invader {
+            position: absolute;
+            width: 36vw;
+            height: 36vw;
+            left: calc(50% - 18vw) !important;
+            top: calc(50% - 18vw) !important;
+            background: url('images/niko\ on\ avocado\ flying.png') center center / contain no-repeat;
+            pointer-events: none;
+            z-index: 6;
+            animation: invader 4s 0.1s infinite linear;
+        }
+
+        .invader-speed-effect {
+            position: absolute;
+            width: 36vw;
+            height: 36vw;
+            left: calc(50% - 18vw) !important;
+            top: calc(50% - 18vw) !important;
+            pointer-events: none;
+        }
+        #invader-speed-back {
+            z-index: 5;
+        }
+        #invader-speed-front {
+            z-index: 7;
+        }
+
+        .speed-effect {
+            position: absolute;
+            background: url('images/speed.png') center center / contain no-repeat;
+            animation: flySpeedEffect 0.5s ease-in forwards;
+        }
+
+        @keyframes flySpeedEffect {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-80vh);
+                opacity: 0;
+            }
+        }
+
+        .scene .comets-container {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10% !important;
+            left: -10% !important;
+            overflow: hidden;
+        }
+
+        .scene #comets-container-1 {
+            z-index: 2;
+        }
+        .scene #comets-container-2 {
+            z-index: 3;
+        }
+        .scene #comets-container-3 {
+            z-index: 4;
+        }
+
+        .scene .explosions-container {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10% !important;
+            left: -10% !important;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .scene .screen-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+            background: radial-gradient(circle, rgba(0,0,0,0), rgba(0,0,0,0.4));
+        }
+
+        .scene .vhs-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+            opacity: 0.15;
+            background: url('images/vhs1.gif') repeat;
+        }
+        .scene .camera-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+            background-image: url('images/camera-top-left.png'), 
+                            url('images/camera-top-right.png'), 
+                            url('images/camera-bottom-left.png'), 
+                            url('images/camera-bottom-right.png');
+            background-position: 30px 30px, 
+                         calc(100% - 30px) 30px, 
+                         30px calc(100% - 30px), 
+                         calc(100% - 30px) calc(100% - 30px); 
+            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+            background-size: auto, auto, auto, auto;
+        }
+
+        .scene .menu-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 30;
+        }
+
+        .comet {
+            position: absolute;
+            background: url('images/comet.png') center center / contain no-repeat;
+            animation: flyComet 3s ease-in forwards;
+        }
+
+        @keyframes flyComet {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(80vh);
+                opacity: 0;
+            }
+        }
+
+        .explosion {
+            position: absolute;
+            background: url('images/explosion.gif') center center / contain no-repeat;
+            animation: explosionFade 1.1s ease-in forwards;
+        }
+
+        @keyframes explosionFade {
+            0% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .links {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0;
+            padding: 0;
+            pointer-events: auto;
+        }
+
+        .links a {
+            position: relative;
+            font-family: 'Candal', sans-serif;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 2.8rem;
+            line-height: 2.8rem;
+            padding-left: 30px;
+            pointer-events: auto;
+            letter-spacing: 6px;
+            text-shadow: 0 0 5px rgba(28, 80, 159, 0.6);
+            transition: text-shadow 0.3s ease-in-out;
+        }
+        .links a::after {
+            content: ''; 
+            position: absolute;
+            top: 48%;
+            right: -2.5rem;
+            transform: translateY(-50%);
+            width: 3rem;
+            height: 3rem;
+            background: url('images/fire-icon.png') center center / cover no-repeat;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
+        }
+
+        .links a:hover::after {
+            opacity: 1;
+            right: -3.5rem;
+        }
+
+        .links a:hover {
+            color: #fff7f1;
+            text-shadow:
+                0 0 3px rgba(230, 89, 0, 1),
+                0 0 5px rgba(225, 70, 0, 0.8),
+                0 0 8px rgba(230, 120, 10, 0.6),
+                0 0 10px rgba(230, 160, 20, 0.5),
+                0 0 13px rgba(230, 210, 70, 0.4),
+                0 0 15px rgba(230, 180, 50, 0.3),
+                0 0 18px rgba(210, 100, 50, 0.2),
+                0 0 20px rgba(230, 180, 120, 0.1);
+        }
+
+        #ca {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 0;
+            padding: 0;
+            pointer-events: auto;
+            font-family: 'Candal', sans-serif;
+            color: #1c0a4c;
+            cursor: pointer;
+            line-height: 100%;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 4px rgba(214, 214, 214, 0.6);
+            transition: text-shadow 0.3s ease-in-out;
+        }
+
+        #ca::before {
+            content: "CA:";
+            margin-right: 6px;
+        }
+
+        #ca.copied {
+            text-shadow:
+                0 0 3px rgba(230, 89, 0, 1), 
+                0 0 5px rgba(225, 70, 0, 0.8),
+                0 0 8px rgba(230, 120, 10, 0.6),
+                0 0 10px rgba(230, 160, 20, 0.5),
+                0 0 13px rgba(230, 210, 70, 0.4),
+                0 0 15px rgba(230, 180, 50, 0.3),
+                0 0 18px rgba(210, 100, 50, 0.2),
+                0 0 20px rgba(230, 180, 120, 0.1);
+        }
+        #subtitle {
+    font-size: 0.9rem; /* Adjust font size */
+    color: #78485f;
+    margin-top: 5px;
+    text-shadow: 0 0 3px rgba(230, 89, 0, 0.5),
+                 0 0 5px rgba(225, 70, 0, 0.3),
+                 0 0 7px rgba(230, 120, 10, 0.2);
+    letter-spacing: 2px;
+    text-transform: uppercase; /* Make it uppercase */
+    transition: text-shadow 0.3s ease-in-out;
+        }
+        .down-button {
+            position: absolute;
+            text-decoration: none !important;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+            padding: 0;
+            pointer-events: auto;
+            font-family: 'Candal', sans-serif;
+            color: #d6d6d6;
+            cursor: pointer;
+            font-size: 2rem;
+            line-height: 100%;
+            text-shadow: 0 0 4px rgba(214, 214, 214, 0.6);
+            transition: text-shadow 0.3s ease-in-out;
+            animation: downButton 2s ease-in-out infinite; 
+        }
+
+        .down-button:hover {
+            text-shadow:
+                0 0 3px rgba(230, 89, 0, 1), 
+                0 0 5px rgba(225, 70, 0, 0.8),
+                0 0 8px rgba(230, 120, 10, 0.6),
+                0 0 10px rgba(230, 160, 20, 0.5),
+                0 0 13px rgba(230, 210, 70, 0.4),
+                0 0 15px rgba(230, 180, 50, 0.3),
+                0 0 18px rgba(210, 100, 50, 0.2),
+                0 0 20px rgba(230, 180, 120, 0.1);
+        }
+
+        @keyframes downButton {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes invader {
+            0% {
+                -webkit-transform: rotateZ(0deg) translate3d(0, 1%, 0) rotateZ(0deg);
+                        transform: rotateZ(0deg) translate3d(0, 1%, 0) rotateZ(0deg);
+            }
+            100% {
+                -webkit-transform: rotateZ(360deg) translate3d(0, 1%, 0) rotateZ(-360deg);
+                        transform: rotateZ(360deg) translate3d(0, 1%, 0) rotateZ(-360deg);
+            }
+        }
+
+        @keyframes backgroundAnim {
+            0% {
+                transform: rotateZ(0deg) translate3d(0, 0.4%, 0) rotateZ(0deg);
+            }
+            100% {
+                transform: rotateZ(-360deg) translate3d(0, 0.4%, 0) rotateZ(360deg);
+            }
+        }
+
+
+    #memes {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    #memes a {
+        position: relative;
+        flex: 1 0 33.33%;
+        height: 30vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    #memes a:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    #memes a::before {
+        content: attr(data-title);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        text-align: center;
+        font-size: 1rem;
+        opacity: 0;
+        transform: translateY(100%);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #memes a:hover::before {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1500px) {
+        #memes a {
+            flex: 1 0 33%;
+            height: 25vw;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        #memes a {
+            flex: 1 0 50%;
+            height: 30vw;
+        }
+    }
+
+    @media (max-width: 768px) {
+        #memes a {
+            flex: 1 0 50%;
+            height: 40vw;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #memes a {
+            flex: 1 0 100%;
+            height: 60vw;
+        }
+    }
+
+        #ca {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    pointer-events: auto;
+    font-family: 'Candal', sans-serif;
+    color: #d6d6d6;
+    cursor: pointer;
+    line-height: 100%;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 4px rgba(214, 214, 214, 0.6);
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+#subtitle {
+    font-size: 2rem; /* Adjust font size */
+    color: #f5f5f5;
+    margin-top: 5px;
+    text-shadow: 0 0 3px rgba(230, 89, 0, 0.5),
+                 0 0 5px rgba(225, 70, 0, 0.3),
+                 0 0 7px rgba(230, 120, 10, 0.2);
+    letter-spacing: 2px;
+    text-transform: uppercase; /* Make it uppercase */
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+#ca:hover #subtitle {
+    text-shadow:
+        0 0 3px rgba(230, 89, 0, 1), 
+        0 0 5px rgba(225, 70, 0, 0.8),
+        0 0 8px rgba(230, 120, 10, 0.6),
+        0 0 10px rgba(230, 160, 20, 0.5),
+        0 0 13px rgba(230, 210, 70, 0.4),
+        0 0 15px rgba(230, 180, 50, 0.3),
+        0 0 18px rgba(210, 100, 50, 0.2),
+        0 0 20px rgba(230, 180, 120, 0.1);
+}
+
+
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="preloader-image"></div>
+    </div>
+
+    <div id="main">
+        <div class="scene" id="scene" data-relative-input="true">
+            <div class="background-container" data-depth="0.15">
+                <div class="background"></div>
+            </div>
+            <div class="explosions-container" data-depth="0.15" id="explosions-container"></div>
+            <div class="comets-container" data-depth="0.18" id="comets-container-1"></div>
+            <div class="comets-container" data-depth="0.25" id="comets-container-2"></div>
+            <div class="comets-container" data-depth="0.34" id="comets-container-3"></div>
+            <div class="invader-container" data-depth="0.4">
+                <div class="invader-speed-effect" id="invader-speed-back"></div>
+                <div class="invader"></div>
+                <div class="invader-speed-effect" id="invader-speed-front"></div>
+            </div>
+            <div class="screen-border" data-depth="0"></div>
+            <div class="camera-effect" data-depth="0"></div>
+            <div class="vhs-effect" data-depth="0"></div>
+            <div class="menu-container" data-depth="0">
+                <span id="ca"></span>
+                <span id="subtitle"></span>
+
+                <div class="links">
+                    <a href="https://t.me/+d9wTPUpgZQZjZGE0" target="_blank">TELEGRAM</a>
+                    <a href="https://x.com/NikoFatTermin" target="_blank">TWITTER</a>
+                    <a href="#memes">MEMES</a>
+                </div>
+                <a class="down-button" href="#memes">▼</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="memes">
+        <a class="spotlight" href="memes/16.png" style="background-image: url('images/nico in the forest.png');" data-title="SILENCE"></a>
+        <a class="spotlight" href="memes/14.png" style="background-image: url('images/image (46).png');" data-title="SILENCE"></a>
+        <a class="spotlight" href="memes/1.png" style="background-image: url('images/3.png');" data-title="SILENCE"></a>
+        <a class="spotlight" href="memes/2.png" style="background-image: url('images/niko in room.png');" data-title="SILENCE"></a>
+        <a class="spotlight" href="memes/4.png" style="background-image: url('images/niko in tre.jpeg');" data-title="Niko in Tre"></a>
+        <a class="spotlight" href="memes/5.png" style="background-image: url('images/niko foto rubata.gif');" data-title="SILENCE"></a>
+        <a class="spotlight" href="memes/7.png" style="background-image: url('images/niko in school.png');" data-title="SILENCE"></a>
+        <a class="spotlight" href="memes/8.png" style="background-image: url('images/niko in wave.png');" data-title="SILENCE"></a>
+        <a class="spotlight" href="memes/9.png" style="background-image: url('images/niko\ in\ food.png');" data-title="SILENCE"></a>
+    </div>
+    
+    </div>    
+
+    <script src="js/parallax.min.js"></script>
+    <script src="js/spotlight.bundle.js"></script>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.getElementById('ca').addEventListener('click', function() {
+            const text = this.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                this.classList.add('copied');
+                setTimeout(() => {
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.transition = 'opacity 1s ease-in-out';
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.remove();
+                }, 1000);
+            }, 2000);
+
+            var scene = document.getElementById('scene');
+            var parallaxInstance = new Parallax(scene);
+
+            startGeneratingComets();
+            startGeneratingExplosions();
+            startGeneratingSpeedEffects(); 
+        });
+
+        function createComet() {
+            const size = Math.random() * 350 + 50;
+
+            let container;
+            if (size <= 180) {
+                container = document.getElementById('comets-container-1');
+            } else if (size <= 300) {
+                container = document.getElementById('comets-container-2');
+            } else {
+                container = document.getElementById('comets-container-3');
+            }
+
+            const comet = document.createElement('div');
+            comet.classList.add('comet');
+
+            comet.style.width = `${size}px`;
+            comet.style.height = `${size}px`;
+
+            const randomX = Math.random() * container.clientWidth;
+            const randomY = -(size + (Math.random() * 200 + 50)); 
+
+            comet.style.left = `${randomX}px`;
+            comet.style.top = `${randomY}px`;
+
+            container.appendChild(comet);
+
+            comet.addEventListener('animationend', () => {
+                comet.remove();
+            });
+        }
+
+        let cometInterval;
+        function startGeneratingComets() {
+            cometInterval = setInterval(createComet, 200);
+        }
+
+        function stopGeneratingComets() {
+            clearInterval(cometInterval);
+        }
+
+        function createExplosion() {
+            const size = Math.random() * 60 + 40;
+            const container = document.getElementById('explosions-container');
+
+            const explosion = document.createElement('div');
+            explosion.classList.add('explosion');
+
+            explosion.style.width = `${size}px`;
+            explosion.style.height = `${size}px`;
+
+            const timestamp = Date.now();
+            explosion.style.backgroundImage = `url('assets/explosion.gif?${timestamp}')`;
+
+            const randomX = Math.random() * container.offsetWidth;
+            const randomY = container.offsetHeight * (1 / 2) + Math.random() * (container.offsetHeight / 3);
+
+            explosion.style.left = `${randomX}px`;
+            explosion.style.top = `${randomY}px`;
+
+            container.appendChild(explosion);
+
+            explosion.addEventListener('animationend', () => {
+                explosion.remove();
+            });
+        }
+
+        let explosionInterval;
+        function startGeneratingExplosions() {
+            explosionInterval = setInterval(createExplosion, 250);
+        }
+
+        function stopGeneratingExplosions() {
+            clearInterval(explosionInterval);
+        }
+
+        function createSpeedEffect() {
+            const size = Math.random() * 200 + 100;
+
+            const container = Math.random() < 0.66 
+                ? document.getElementById('invader-speed-back') 
+                : document.getElementById('invader-speed-front');
+
+            const speedEffect = document.createElement('div');
+            speedEffect.classList.add('speed-effect');
+
+            speedEffect.style.width = `${size}px`;
+            speedEffect.style.height = `${size}px`;
+
+            const randomX = (container.clientWidth * (1 / 9)) + (Math.random() * (container.clientWidth * (7 / 9) - size));
+            const randomY = (container.clientHeight * (1 / 2)) + (Math.random() * (container.clientHeight / 6 - size));
+
+            speedEffect.style.left = `${randomX}px`;
+            speedEffect.style.top = `${randomY}px`;
+
+            container.appendChild(speedEffect);
+
+            speedEffect.addEventListener('animationend', () => {
+                speedEffect.remove();
+            });
+        }
+
+        let speedEffectInterval;
+        function startGeneratingSpeedEffects() {
+            speedEffectInterval = setInterval(createSpeedEffect, 30);
+        }
+
+        function stopGeneratingSpeedEffects() {
+            clearInterval(speedEffectInterval);
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                stopGeneratingComets();
+                stopGeneratingExplosions();
+                stopGeneratingSpeedEffects();
+            } else {
+                startGeneratingComets();
+                startGeneratingExplosions();
+                startGeneratingSpeedEffects(); 
+            }
+        });
+    </script>
+
+</body></html>
